@@ -1,0 +1,57 @@
+/* src/App.css */
+
+/* Grid layout for tools: 2 columns by default, 3 on larger screens */
+.tool-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+@media (min-width: 768px) {
+  .tool-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Style for each tool item, with spacing and relative positioning for the image */
+.tool-item {
+  position: relative;
+  margin-bottom: 10px;
+}
+
+/* Placeholder image: hidden by default, appears below on hover */
+.tool-item .tool-image {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100px;
+  z-index: 10;
+}
+
+.tool-item:hover .tool-image {
+  display: block;
+}
+
+/* Highlight unavailable tools in red */
+.unavailable {
+  color: red;
+}
+
+/* Basic button styling for consistency */
+button {
+  margin: 5px;
+  padding: 5px 10px;
+  border-radius: 3px;
+}
+
+/* Input styling */
+input[type="text"] {
+  padding: 5px;
+  margin: 5px;
+}
+
+/* Header spacing */
+h2 {
+  margin-bottom: 20px;
+}

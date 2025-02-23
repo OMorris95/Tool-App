@@ -1,28 +1,42 @@
-import React, { useState } from 'react'
-import './App.css';
+import React, { useState } from 'react';
+import './App.css'; // Ensure CSS file is included with styles below
 
-// Initial list of tools, all starting as available with no comments
+// Initial tools with categories as specified
 const initialTools = [
-  { name: "Drill 1", available: true, jobNumber: null, comments: [] },
-  { name: "Drill 2", available: true, jobNumber: null, comments: [] },
-  { name: "Drill 3", available: true, jobNumber: null, comments: [] },
-  { name: "Drill 4", available: true, jobNumber: null, comments: [] },
-  { name: "Drill 5", available: true, jobNumber: null, comments: [] },
-  { name: "Makita Drill", available: true, jobNumber: null, comments: [] },
-  { name: "Dewalt Drill", available: true, jobNumber: null, comments: [] },
-  { name: "Small Drill 3", available: true, jobNumber: null, comments: [] },
-  { name: "Fixings 1", available: true, jobNumber: null, comments: [] },
-  { name: "Fixings 2", available: true, jobNumber: null, comments: [] },
-  { name: "Fixings 3", available: true, jobNumber: null, comments: [] },
-  { name: "Fixings 4", available: true, jobNumber: null, comments: [] },
-  { name: "Fixings 5", available: true, jobNumber: null, comments: [] },
-  { name: "110V Transformer", available: true, jobNumber: null, comments: [] },
-  { name: "Battery Powered Site Light", available: true, jobNumber: null, comments: [] },
-  { name: "Grinder", available: true, jobNumber: null, comments: [] },
-  { name: "110V Jigsaw", available: true, jobNumber: null, comments: [] },
-  { name: "Jigsaw", available: true, jobNumber: null, comments: [] },
-  { name: "SWA Crimper", available: true, jobNumber: null, comments: [] },
-  { name: "Normal Crimper", available: true, jobNumber: null, comments: [] },
+  // Drills
+  { name: "Drill 1", category: "Drills", available: true, jobNumber: null, comments: [] },
+  { name: "Drill 2", category: "Drills", available: true, jobNumber: null, comments: [] },
+  { name: "Drill 3", category: "Drills", available: true, jobNumber: null, comments: [] },
+  { name: "Drill 4", category: "Drills", available: true, jobNumber: null, comments: [] },
+  { name: "Drill 5", category: "Drills", available: true, jobNumber: null, comments: [] },
+  { name: "Small Drill", category: "Drills", available: true, jobNumber: null, comments: [] },
+  { name: "Makita Drill", category: "Drills", available: true, jobNumber: null, comments: [] },
+  { name: "Dewalt Drill", category: "Drills", available: true, jobNumber: null, comments: [] },
+  { name: "Ballast Drill", category: "Drills", available: true, jobNumber: null, comments: [] },
+  
+  // Fixings
+  { name: "Fixings 1", category: "Fixings", available: true, jobNumber: null, comments: [] },
+  { name: "Fixings 2", category: "Fixings", available: true, jobNumber: null, comments: [] },
+  { name: "Fixings 3", category: "Fixings", available: true, jobNumber: null, comments: [] },
+  { name: "Fixings 4", category: "Fixings", available: true, jobNumber: null, comments: [] },
+  { name: "Fixings 5", category: "Fixings", available: true, jobNumber: null, comments: [] },
+  { name: "Heavy Fixings", category: "Fixings", available: true, jobNumber: null, comments: [] },
+  
+  // 110V Gear
+  { name: "110V Transformer", category: "110V Gear", available: true, jobNumber: null, comments: [] },
+  { name: "110V 16A Lead", category: "110V Gear", available: true, jobNumber: null, comments: [] },
+  { name: "110V Site Light", category: "110V Gear", available: true, jobNumber: null, comments: [] },
+  { name: "110V Jigsaw", category: "110V Gear", available: true, jobNumber: null, comments: [] },
+  
+  // Crimping
+  { name: "SWA Crimper", category: "Crimping", available: true, jobNumber: null, comments: [] },
+  { name: "Normal Crimper", category: "Crimping", available: true, jobNumber: null, comments: [] },
+  { name: "Small Crimper", category: "Crimping", available: true, jobNumber: null, comments: [] },
+  { name: "Data Box", category: "Crimping", available: true, jobNumber: null, comments: [] },
+  
+  // Misc
+  { name: "Grinder", category: "Misc", available: true, jobNumber: null, comments: [] },
+  { name: "Torque Screwdriver Set", category: "Misc", available: true, jobNumber: null, comments: [] },
 ];
 
 function App() {
@@ -67,15 +81,35 @@ function App() {
     ));
   };
 
+  // Get unique categories dynamically
+  const categories = [...new Set(tools.map(tool => tool.category))];
+
   return (
     <div>
-      <div>
-        <button onClick={() => setCurrentTab("book")}>Book Tools</button>
-        <button onClick={() => setCurrentTab("status")}>Tool Status</button>
+      <div className="tabs">
+        <button
+          className={currentTab === "book" ? "active" : ""}
+          onClick={() => setCurrentTab("book")}
+        >
+          Book Tools
+        </button>
+        <button
+          className={currentTab === "status" ? "active" : ""}
+          onClick={() => setCurrentTab("status")}
+        >
+          Tool Status
+        </button>
       </div>
-      {currentTab === "book" && <BookTools tools={tools} onBook={bookTools} />}
+      {currentTab === "book" && (
+        <BookTools tools={tools} categories={categories} onBook={bookTools} />
+      )}
       {currentTab === "status" && (
-        <ToolStatus tools={tools} onReturn={returnTool} onOpenDetails={setModalTool} />
+        <ToolStatus
+          tools={tools}
+          categories={categories}
+          onReturn={returnTool}
+          onOpenDetails={setModalTool}
+        />
       )}
       {modalTool && (
         <ToolDetailsModal
@@ -89,7 +123,7 @@ function App() {
   );
 }
 
-function BookTools({ tools, onBook }) {
+function BookTools({ tools, categories, onBook }) {
   const [selectedTools, setSelectedTools] = useState([]);
   const [jobNumber, setJobNumber] = useState("");
 
@@ -112,20 +146,27 @@ function BookTools({ tools, onBook }) {
   return (
     <div>
       <h2>Book Tools</h2>
-      <div className="tool-grid">
-        {tools.map(tool => (
-          <div className="tool-item" key={tool.name}>
-            <input
-              type="checkbox"
-              checked={selectedTools.includes(tool.name)}
-              onChange={() => handleCheckboxChange(tool.name)}
-              disabled={!tool.available}
-            />
-            <span className={tool.available ? '' : 'unavailable'}>{tool.name}</span>
-            <img src="https://via.placeholder.com/100" className="tool-image" alt="Tool Image" />
+      {categories.map(category => (
+        <div key={category} className="category-section">
+          <h3>{category}</h3>
+          <div className="tool-grid">
+            {tools
+              .filter(tool => tool.category === category)
+              .map(tool => (
+                <div className="tool-item" key={tool.name}>
+                  <input
+                    type="checkbox"
+                    checked={selectedTools.includes(tool.name)}
+                    onChange={() => handleCheckboxChange(tool.name)}
+                    disabled={!tool.available}
+                  />
+                  <span className={tool.available ? '' : 'unavailable'}>{tool.name}</span>
+                  <img src="https://via.placeholder.com/100" className="tool-image" alt="Tool Image" />
+                </div>
+              ))}
           </div>
-        ))}
-      </div>
+        </div>
+      ))}
       <div>
         <label>Job Number: </label>
         <input
@@ -139,22 +180,29 @@ function BookTools({ tools, onBook }) {
   );
 }
 
-function ToolStatus({ tools, onReturn, onOpenDetails }) {
+function ToolStatus({ tools, categories, onReturn, onOpenDetails }) {
   return (
     <div>
       <h2>Tool Status</h2>
-      <div className="tool-grid">
-        {tools.map(tool => (
-          <div className="tool-item" key={tool.name}>
-            <span className={tool.available ? '' : 'unavailable'}>
-              {tool.name}: {tool.available ? "Available" : `Booked for Job #${tool.jobNumber}`}
-            </span>
-            {!tool.available && <button onClick={() => onReturn(tool.name)}>Return</button>}
-            <button onClick={() => onOpenDetails(tool)}>Details</button>
-            <img src="https://via.placeholder.com/100" className="tool-image" alt="Tool Image" />
+      {categories.map(category => (
+        <div key={category} className="category-section">
+          <h3>{category}</h3>
+          <div className="tool-grid">
+            {tools
+              .filter(tool => tool.category === category)
+              .map(tool => (
+                <div className="tool-item" key={tool.name}>
+                  <span className={tool.available ? '' : 'unavailable'}>
+                    {tool.name}: {tool.available ? "Available" : `Booked for Job #${tool.jobNumber}`}
+                  </span>
+                  {!tool.available && <button onClick={() => onReturn(tool.name)}>Return</button>}
+                  <button onClick={() => onOpenDetails(tool)}>Details</button>
+                  <img src="https://via.placeholder.com/100" className="tool-image" alt="Tool Image" />
+                </div>
+              ))}
           </div>
-        ))}
-      </div>
+        </div>
+      ))}
     </div>
   );
 }

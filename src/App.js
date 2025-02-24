@@ -11,37 +11,40 @@ const initialCategories = [
   "Misc"
 ];
 
-// Initial tools with categories
+// Initial tools with categories, locations, and placeholder images as provided
 const initialTools = [
   // Drills
-  { name: "Drill 1", category: "Drills", available: true, jobNumber: null, location: "Tool Cupboard", comments: [], history: [] },
-  { name: "Drill 2", category: "Drills", available: true, jobNumber: null, location: "Tool Cupboard", comments: [], history: [] },
-  { name: "Drill 3", category: "Drills", available: true, jobNumber: null, location: "Tool Cupboard", comments: [], history: [] },
-  { name: "Drill 4", category: "Drills", available: true, jobNumber: null, location: "Tool Cupboard", comments: [], history: [] },
-  { name: "Drill 5", category: "Drills", available: true, jobNumber: null, location: "Tool Cupboard", comments: [], history: [] },
-  { name: "Makita Drill", category: "Drills", available: true, jobNumber: null, location: "Tool Cupboard", comments: [], history: [] },
-  { name: "DeWalt Drill", category: "Drills", available: true, jobNumber: null, location: "Tool Cupboard", comments: [], history: [] },
-  { name: "Small Drill", category: "Drills", available: true, jobNumber: null, location: "Tool Cupboard", comments: [], history: [] },
-  { name: "Ballast Drill", category: "Drills", available: true, jobNumber: null, location: "Tool Cupboard", comments: [], history: [] },
+  { name: "Drill 1", category: "Drills", available: true, jobNumber: null, location: "Tool Cupboard", comments: [], history: [], image: "https://i.imgur.com/QyjNQz9.jpeg" },
+  { name: "Drill 2", category: "Drills", available: true, jobNumber: null, location: "Tool Cupboard", comments: [], history: [], image: "https://i.imgur.com/QyjNQz9.jpeg" },
+  { name: "Drill 3", category: "Drills", available: true, jobNumber: null, location: "Tool Cupboard", comments: [], history: [], image: "https://i.imgur.com/QyjNQz9.jpeg" },
+  { name: "Drill 4", category: "Drills", available: true, jobNumber: null, location: "Tool Cupboard", comments: [], history: [], image: "https://i.imgur.com/QyjNQz9.jpeg" },
+  { name: "Drill 5", category: "Drills", available: true, jobNumber: null, location: "Tool Cupboard", comments: [], history: [], image: "https://i.imgur.com/QyjNQz9.jpeg" },
+  { name: "Makita Drill", category: "Drills", available: true, jobNumber: null, location: "Tool Cupboard", comments: [], history: [], image: "https://i.imgur.com/QyjNQz9.jpeg" },
+  { name: "DeWalt Drill", category: "Drills", available: true, jobNumber: null, location: "Tool Cupboard", comments: [], history: [], image: "https://i.imgur.com/QyjNQz9.jpeg" },
+  { name: "Small Drill", category: "Drills", available: true, jobNumber: null, location: "Tool Cupboard", comments: [], history: [], image: "https://i.imgur.com/QyjNQz9.jpeg" },
+  { name: "Ballast Drill", category: "Drills", available: true, jobNumber: null, location: "Tool Cupboard", comments: [], history: [], image: "https://i.imgur.com/QyjNQz9.jpeg" },
+  
   // Fixings
-  { name: "Fixings 1", category: "Fixings", available: true, jobNumber: null, location: "Upstairs", comments: [], history: [] },
-  { name: "Fixings 2", category: "Fixings", available: true, jobNumber: null, location: "Upstairs", comments: [], history: [] },
-  { name: "Fixings 3", category: "Fixings", available: true, jobNumber: null, location: "Upstairs", comments: [], history: [] },
-  { name: "Fixings 4", category: "Fixings", available: true, jobNumber: null, location: "Upstairs", comments: [], history: [] },
-  { name: "Fixings 5", category: "Fixings", available: true, jobNumber: null, location: "Upstairs", comments: [], history: [] },
-  { name: "Fixings 5", category: "Fixings", available: true, jobNumber: null, location: "Upstairs", comments: [], history: [] },
-  { name: "Heavy Fixings", category: "Fixings", available: true, jobNumber: null, location: "Downstairs", comments: [], history: [] },
+  { name: "Fixings 1", category: "Fixings", available: true, jobNumber: null, location: "Upstairs", comments: [], history: [], image: "https://i.imgur.com/QyjNQz9.jpeg" },
+  { name: "Fixings 2", category: "Fixings", available: true, jobNumber: null, location: "Upstairs", comments: [], history: [], image: "https://i.imgur.com/QyjNQz9.jpeg" },
+  { name: "Fixings 3", category: "Fixings", available: true, jobNumber: null, location: "Upstairs", comments: [], history: [], image: "https://i.imgur.com/QyjNQz9.jpeg" },
+  { name: "Fixings 4", category: "Fixings", available: true, jobNumber: null, location: "Upstairs", comments: [], history: [], image: "https://i.imgur.com/QyjNQz9.jpeg" },
+  { name: "Fixings 5", category: "Fixings", available: true, jobNumber: null, location: "Upstairs", comments: [], history: [], image: "https://i.imgur.com/QyjNQz9.jpeg" },
+  { name: "Heavy Fixings", category: "Fixings", available: true, jobNumber: null, location: "Downstairs", comments: [], history: [], image: "https://i.imgur.com/QyjNQz9.jpeg" },
+  
   // Lights
-  { name: "Battery Tripod Site Light", category: "Lights", available: true, jobNumber: null, location: "Downstairs", comments: [], history: [] },
+  { name: "Battery Tripod Site Light", category: "Lights", available: true, jobNumber: null, location: "Downstairs", comments: [], history: [], image: "https://i.imgur.com/QyjNQz9.jpeg" },
+  
   // 110V Gear
-  { name: "110V Transformer 1", category: "110V Gear", available: true, jobNumber: null, location: "Downstairs", comments: [], history: [] },
-  { name: "110V Transformer 2", category: "110V Gear", available: true, jobNumber: null, location: "Downstairs", comments: [], history: [] },
-  { name: "110V Transformer 3", category: "110V Gear", available: true, jobNumber: null, location: "Downstairs", comments: [], history: [] },
-  { name: "110V Jigsaw", category: "110V Gear", available: true, jobNumber: null, location: "Downstairs", comments: [], history: [] },
+  { name: "110V Transformer 1", category: "110V Gear", available: true, jobNumber: null, location: "Downstairs", comments: [], history: [], image: "https://i.imgur.com/QyjNQz9.jpeg" },
+  { name: "110V Transformer 2", category: "110V Gear", available: true, jobNumber: null, location: "Downstairs", comments: [], history: [], image: "https://i.imgur.com/QyjNQz9.jpeg" },
+  { name: "110V Transformer 3", category: "110V Gear", available: true, jobNumber: null, location: "Downstairs", comments: [], history: [], image: "https://i.imgur.com/QyjNQz9.jpeg" },
+  { name: "110V Jigsaw", category: "110V Gear", available: true, jobNumber: null, location: "Downstairs", comments: [], history: [], image: "https://i.imgur.com/QyjNQz9.jpeg" },
+  
   // Crimping
-  { name: "SWA Crimper", category: "Crimping", available: true, jobNumber: null, location: "Downstairs", comments: [], history: [] },
-  { name: "Large Crimper", category: "Crimping", available: true, jobNumber: null, location: "Downstairs", comments: [], history: [] },
-  { name: "Small Crimper", category: "Crimping", available: true, jobNumber: null, location: "Downstairs", comments: [], history: [] },
+  { name: "SWA Crimper", category: "Crimping", available: true, jobNumber: null, location: "Downstairs", comments: [], history: [], image: "https://i.imgur.com/QyjNQz9.jpeg" },
+  { name: "Large Crimper", category: "Crimping", available: true, jobNumber: null, location: "Downstairs", comments: [], history: [], image: "https://i.imgur.com/QyjNQz9.jpeg" },
+  { name: "Small Crimper", category: "Crimping", available: true, jobNumber: null, location: "Downstairs", comments: [], history: [], image: "https://i.imgur.com/QyjNQz9.jpeg" },
 ];
 
 // Function to get current date in DD/MM/YYYY format
@@ -54,7 +57,6 @@ const getCurrentDate = () => {
 };
 
 function App() {
-  // State management
   const [tools, setTools] = useState(() => {
     const savedTools = localStorage.getItem('tools');
     return savedTools ? JSON.parse(savedTools) : initialTools;
@@ -64,15 +66,15 @@ function App() {
   const [jobNumber, setJobNumber] = useState('');
   const [newToolName, setNewToolName] = useState('');
   const [newToolCategory, setNewToolCategory] = useState(initialCategories[0]);
+  const [newToolLocation, setNewToolLocation] = useState('');
+  const [newToolImage, setNewToolImage] = useState(null);
   const [selectedTool, setSelectedTool] = useState(null);
   const [newComment, setNewComment] = useState('');
 
-  // Persist tools to localStorage whenever they change (needs changed to server side later)
   useEffect(() => {
     localStorage.setItem('tools', JSON.stringify(tools));
   }, [tools]);
 
-  // Toggle category expansion
   const toggleCategory = (category) => {
     setExpandedCategories(prev => ({
       ...prev,
@@ -80,14 +82,12 @@ function App() {
     }));
   };
 
-  // Handle checkbox selection for booking tools
   const handleCheckboxChange = (toolName) => {
     setSelectedTools(prev =>
       prev.includes(toolName) ? prev.filter(n => n !== toolName) : [...prev, toolName]
     );
   };
 
-  // Book selected tools to a job
   const bookTools = () => {
     if (selectedTools.length === 0 || !jobNumber.trim()) {
       alert('Select at least one tool and enter a job number.');
@@ -114,7 +114,6 @@ function App() {
     setJobNumber('');
   };
 
-  // Return a tool to make it available again
   const returnTool = (toolName) => {
     const updatedTools = tools.map(tool => {
       if (tool.name === toolName) {
@@ -135,7 +134,6 @@ function App() {
     setTools(updatedTools);
   };
 
-  // Add a new comment to the selected tool
   const addComment = (toolName, commentText) => {
     const updatedTools = tools.map(tool => {
       if (tool.name === toolName) {
@@ -153,10 +151,9 @@ function App() {
       return tool;
     });
     setTools(updatedTools);
-    setNewComment('');
+    setNewComment(''); // Clear input and update UI immediately
   };
 
-  // Mark a comment as complete with confirmation
   const completeComment = (toolName, commentIndex) => {
     if (!window.confirm('Are you sure you want to mark this comment complete?')) return;
     const updatedTools = tools.map(tool => {
@@ -178,26 +175,34 @@ function App() {
     setTools(updatedTools);
   };
 
-  // Add a new tool to the list
   const addNewTool = () => {
-    if (!newToolName.trim() || !initialCategories.includes(newToolCategory)) {
-      alert('Enter a tool name and select a valid category.');
+    if (!newToolName.trim() || !initialCategories.includes(newToolCategory) || !newToolLocation.trim()) {
+      alert('Enter a tool name, location, and select a valid category.');
       return;
     }
+    const imageUrl = newToolImage ? URL.createObjectURL(newToolImage) : "https://via.placeholder.com/300";
     const newTool = {
       name: newToolName,
       category: newToolCategory,
       available: true,
       jobNumber: null,
-      location: 'New Tool Location', // Placeholder
+      location: newToolLocation,
       comments: [],
-      history: []
+      history: [],
+      image: imageUrl
     };
     setTools([...tools, newTool]);
     setNewToolName('');
+    setNewToolCategory(initialCategories[0]);
+    setNewToolLocation('');
+    setNewToolImage(null);
   };
 
-  // Select a tool to display its details
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    setNewToolImage(file);
+  };
+
   const selectTool = (tool) => {
     setSelectedTool(tool);
   };
@@ -209,7 +214,9 @@ function App() {
         {selectedTool ? (
           <div>
             <h2>{selectedTool.name} - {selectedTool.location}</h2>
-            <div className="tool-image">IMAGE OF TOOL</div>
+            <div className="tool-image-container">
+              <img src={selectedTool.image} alt={`${selectedTool.name} Image`} className="tool-image" />
+            </div>
             <div className="comments-section">
               <h3>Comments:</h3>
               {selectedTool.comments.map((comment, index) => (
@@ -257,7 +264,7 @@ function App() {
       <div className="right-section">
         <h2>Tool List</h2>
         {initialCategories.map(category => (
-          <div key={category}>
+          <div key={category} className="category-section">
             <h3 onClick={() => toggleCategory(category)}>
               {expandedCategories[category] ? 'v' : '>'} {category}
             </h3>
@@ -325,6 +332,17 @@ function App() {
               <option key={cat} value={cat}>{cat}</option>
             ))}
           </select>
+          <input
+            type="text"
+            value={newToolLocation}
+            onChange={e => setNewToolLocation(e.target.value)}
+            placeholder="Tool location"
+          />
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleImageUpload}
+          />
           <button onClick={addNewTool}>Add</button>
         </div>
       </div>

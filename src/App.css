@@ -7,7 +7,7 @@
 .left-section {
   flex: 2;
   padding: 20px;
-  border-right: 2px solid black;
+  border-right: 2px solid black; /* Vertical dividing line */
   overflow-y: auto;
 }
 
@@ -37,10 +37,12 @@
 
 .available {
   background-color: lightgreen;
+  width: 100%;
 }
 
 .unavailable {
   background-color: lightcoral;
+  width: 100%;
 }
 
 .return-btn {
@@ -55,17 +57,21 @@
   background-color: #bbb;
 }
 
-.booking-section, .add-tool-section {
-  margin-top: 20px;
+.booking-section, .add-tool-section, .category-section {
+  margin: 20px 0;
+  padding: 10px;
+  /* No border */
+}
+
+.comments-section, .history-section {
+  margin: 20px 0;
+  padding: 10px;
+  border: 2px solid black; /* Borders only on left-side sections */
 }
 
 .booking-section label {
   display: block;
   margin-bottom: 5px;
-}
-
-.comments-section, .history-section {
-  margin-top: 20px;
 }
 
 .comment {
@@ -80,17 +86,19 @@
   color: green;
 }
 
-.tool-image {
-  width: 200px;
-  height: 200px;
-  background-color: #ddd;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.tool-image-container {
   margin-bottom: 20px;
 }
 
-h3 {
+.tool-image {
+  width: 300px;
+  height: 300px;
+  object-fit: contain;
+  border: 2px solid black;
+}
+
+h2, h3 {
+  margin: 0 0 10px 0;
   cursor: pointer;
 }
 

@@ -1,251 +1,311 @@
-import React, { useState } from 'react';
-import './App.css'; // Ensure CSS file is included with styles below
+import React, { useState, useEffect } from 'react';
+import './App.css';
 
-// Initial tools with categories as specified
-const initialTools = [
-  // Drills
-  { name: "Drill 1", category: "Drills", available: true, jobNumber: null, comments: [] },
-  { name: "Drill 2", category: "Drills", available: true, jobNumber: null, comments: [] },
-  { name: "Drill 3", category: "Drills", available: true, jobNumber: null, comments: [] },
-  { name: "Drill 4", category: "Drills", available: true, jobNumber: null, comments: [] },
-  { name: "Drill 5", category: "Drills", available: true, jobNumber: null, comments: [] },
-  { name: "Small Drill", category: "Drills", available: true, jobNumber: null, comments: [] },
-  { name: "Makita Drill", category: "Drills", available: true, jobNumber: null, comments: [] },
-  { name: "Dewalt Drill", category: "Drills", available: true, jobNumber: null, comments: [] },
-  { name: "Ballast Drill", category: "Drills", available: true, jobNumber: null, comments: [] },
-  
-  // Fixings
-  { name: "Fixings 1", category: "Fixings", available: true, jobNumber: null, comments: [] },
-  { name: "Fixings 2", category: "Fixings", available: true, jobNumber: null, comments: [] },
-  { name: "Fixings 3", category: "Fixings", available: true, jobNumber: null, comments: [] },
-  { name: "Fixings 4", category: "Fixings", available: true, jobNumber: null, comments: [] },
-  { name: "Fixings 5", category: "Fixings", available: true, jobNumber: null, comments: [] },
-  { name: "Heavy Fixings", category: "Fixings", available: true, jobNumber: null, comments: [] },
-  
-  // 110V Gear
-  { name: "110V Transformer", category: "110V Gear", available: true, jobNumber: null, comments: [] },
-  { name: "110V 16A Lead", category: "110V Gear", available: true, jobNumber: null, comments: [] },
-  { name: "110V Site Light", category: "110V Gear", available: true, jobNumber: null, comments: [] },
-  { name: "110V Jigsaw", category: "110V Gear", available: true, jobNumber: null, comments: [] },
-  
-  // Crimping
-  { name: "SWA Crimper", category: "Crimping", available: true, jobNumber: null, comments: [] },
-  { name: "Normal Crimper", category: "Crimping", available: true, jobNumber: null, comments: [] },
-  { name: "Small Crimper", category: "Crimping", available: true, jobNumber: null, comments: [] },
-  { name: "Data Box", category: "Crimping", available: true, jobNumber: null, comments: [] },
-  
-  // Misc
-  { name: "Grinder", category: "Misc", available: true, jobNumber: null, comments: [] },
-  { name: "Torque Screwdriver Set", category: "Misc", available: true, jobNumber: null, comments: [] },
+// Initial categories
+const initialCategories = [
+  "Drills",
+  "Fixings",
+  "Lights",
+  "110V Gear",
+  "Crimping",
+  "Misc"
 ];
 
+// Initial tools with categories
+const initialTools = [
+  // Drills
+  { name: "Drill 1", category: "Drills", available: true, jobNumber: null, location: "Shelf A1", comments: [], history: [] },
+  { name: "Drill 2", category: "Drills", available: true, jobNumber: null, location: "Shelf A2", comments: [], history: [] },
+  { name: "Drill 3", category: "Drills", available: true, jobNumber: null, location: "Shelf A3", comments: [], history: [] },
+  { name: "Drill 4", category: "Drills", available: true, jobNumber: null, location: "Shelf A4", comments: [], history: [] },
+  { name: "Drill 5", category: "Drills", available: true, jobNumber: null, location: "Shelf A5", comments: [], history: [] },
+  { name: "Makita Drill", category: "Drills", available: true, jobNumber: null, location: "Shelf A7", comments: [], history: [] },
+  // Add more initial tools as needed
+];
+
+// Function to get current date in DD/MM/YYYY format
+const getCurrentDate = () => {
+  const today = new Date();
+  const day = String(today.getDate()).padStart(2, '0');
+  const month = String(today.getMonth() + 1).padStart(2, '0');
+  const year = today.getFullYear();
+  return `${day}/${month}/${year}`;
+};
+
 function App() {
-  const [tools, setTools] = useState(initialTools);
-  const [currentTab, setCurrentTab] = useState("book");
-  const [modalTool, setModalTool] = useState(null);
-
-  const bookTools = (selectedTools, jobNumber) => {
-    setTools(tools.map(tool =>
-      selectedTools.includes(tool.name)
-        ? { ...tool, available: false, jobNumber }
-        : tool
-    ));
-  };
-
-  const returnTool = (toolName) => {
-    setTools(tools.map(tool =>
-      tool.name === toolName
-        ? { ...tool, available: true, jobNumber: null }
-        : tool
-    ));
-  };
-
-  const addComment = (toolName, commentText) => {
-    setTools(tools.map(tool =>
-      tool.name === toolName
-        ? { ...tool, comments: [...tool.comments, { text: commentText, status: "active" }] }
-        : tool
-    ));
-  };
-
-  const completeComment = (toolName, commentIndex) => {
-    setTools(tools.map(tool =>
-      tool.name === toolName
-        ? {
-            ...tool,
-            comments: tool.comments.map((c, i) =>
-              i === commentIndex ? { ...c, status: "completed" } : c
-            )
-          }
-        : tool
-    ));
-  };
-
-  // Get unique categories dynamically
-  const categories = [...new Set(tools.map(tool => tool.category))];
-
-  return (
-    <div>
-      <div className="tabs">
-        <button
-          className={currentTab === "book" ? "active" : ""}
-          onClick={() => setCurrentTab("book")}
-        >
-          Book Tools
-        </button>
-        <button
-          className={currentTab === "status" ? "active" : ""}
-          onClick={() => setCurrentTab("status")}
-        >
-          Tool Status
-        </button>
-      </div>
-      {currentTab === "book" && (
-        <BookTools tools={tools} categories={categories} onBook={bookTools} />
-      )}
-      {currentTab === "status" && (
-        <ToolStatus
-          tools={tools}
-          categories={categories}
-          onReturn={returnTool}
-          onOpenDetails={setModalTool}
-        />
-      )}
-      {modalTool && (
-        <ToolDetailsModal
-          tool={modalTool}
-          onClose={() => setModalTool(null)}
-          onAddComment={addComment}
-          onCompleteComment={completeComment}
-        />
-      )}
-    </div>
-  );
-}
-
-function BookTools({ tools, categories, onBook }) {
+  // State management
+  const [tools, setTools] = useState(() => {
+    const savedTools = localStorage.getItem('tools');
+    return savedTools ? JSON.parse(savedTools) : initialTools;
+  });
+  const [expandedCategories, setExpandedCategories] = useState({});
   const [selectedTools, setSelectedTools] = useState([]);
-  const [jobNumber, setJobNumber] = useState("");
+  const [jobNumber, setJobNumber] = useState('');
+  const [newToolName, setNewToolName] = useState('');
+  const [newToolCategory, setNewToolCategory] = useState(initialCategories[0]);
+  const [selectedTool, setSelectedTool] = useState(null);
+  const [newComment, setNewComment] = useState('');
 
+  // Persist tools to localStorage whenever they change
+  useEffect(() => {
+    localStorage.setItem('tools', JSON.stringify(tools));
+  }, [tools]);
+
+  // Toggle category expansion
+  const toggleCategory = (category) => {
+    setExpandedCategories(prev => ({
+      ...prev,
+      [category]: !prev[category]
+    }));
+  };
+
+  // Handle checkbox selection for booking tools
   const handleCheckboxChange = (toolName) => {
     setSelectedTools(prev =>
       prev.includes(toolName) ? prev.filter(n => n !== toolName) : [...prev, toolName]
     );
   };
 
-  const handleBook = () => {
-    if (selectedTools.length > 0 && jobNumber.trim()) {
-      onBook(selectedTools, jobNumber);
-      setSelectedTools([]);
-      setJobNumber("");
-    } else {
-      alert("Select at least one tool and enter a job number.");
+  // Book selected tools to a job
+  const bookTools = () => {
+    if (selectedTools.length === 0 || !jobNumber.trim()) {
+      alert('Select at least one tool and enter a job number.');
+      return;
     }
+    const updatedTools = tools.map(tool => {
+      if (selectedTools.includes(tool.name)) {
+        const historyEntry = {
+          date: getCurrentDate(),
+          action: 'Booked Out',
+          details: `Job #${jobNumber}`
+        };
+        return {
+          ...tool,
+          available: false,
+          jobNumber,
+          history: [historyEntry, ...tool.history]
+        };
+      }
+      return tool;
+    });
+    setTools(updatedTools);
+    setSelectedTools([]);
+    setJobNumber('');
+  };
+
+  // Return a tool to make it available again
+  const returnTool = (toolName) => {
+    const updatedTools = tools.map(tool => {
+      if (tool.name === toolName) {
+        const historyEntry = {
+          date: getCurrentDate(),
+          action: 'Returned',
+          details: ''
+        };
+        return {
+          ...tool,
+          available: true,
+          jobNumber: null,
+          history: [historyEntry, ...tool.history]
+        };
+      }
+      return tool;
+    });
+    setTools(updatedTools);
+  };
+
+  // Add a new comment to the selected tool
+  const addComment = (toolName, commentText) => {
+    const updatedTools = tools.map(tool => {
+      if (tool.name === toolName) {
+        const historyEntry = {
+          date: getCurrentDate(),
+          action: 'Comment',
+          details: commentText
+        };
+        return {
+          ...tool,
+          comments: [...tool.comments, { text: commentText, status: 'active' }],
+          history: [historyEntry, ...tool.history]
+        };
+      }
+      return tool;
+    });
+    setTools(updatedTools);
+    setNewComment('');
+  };
+
+  // Mark a comment as complete with confirmation
+  const completeComment = (toolName, commentIndex) => {
+    if (!window.confirm('Are you sure you want to mark this comment complete?')) return;
+    const updatedTools = tools.map(tool => {
+      if (tool.name === toolName) {
+        const comment = tool.comments[commentIndex];
+        const historyEntry = {
+          date: getCurrentDate(),
+          action: 'Comment Complete',
+          details: comment.text
+        };
+        return {
+          ...tool,
+          comments: tool.comments.filter((_, i) => i !== commentIndex),
+          history: [historyEntry, ...tool.history]
+        };
+      }
+      return tool;
+    });
+    setTools(updatedTools);
+  };
+
+  // Add a new tool to the list
+  const addNewTool = () => {
+    if (!newToolName.trim() || !initialCategories.includes(newToolCategory)) {
+      alert('Enter a tool name and select a valid category.');
+      return;
+    }
+    const newTool = {
+      name: newToolName,
+      category: newToolCategory,
+      available: true,
+      jobNumber: null,
+      location: 'New Tool Location', // Placeholder
+      comments: [],
+      history: []
+    };
+    setTools([...tools, newTool]);
+    setNewToolName('');
+  };
+
+  // Select a tool to display its details
+  const selectTool = (tool) => {
+    setSelectedTool(tool);
   };
 
   return (
-    <div>
-      <h2>Book Tools</h2>
-      {categories.map(category => (
-        <div key={category} className="category-section">
-          <h3>{category}</h3>
-          <div className="tool-grid">
-            {tools
-              .filter(tool => tool.category === category)
-              .map(tool => (
-                <div className="tool-item" key={tool.name}>
-                  <input
-                    type="checkbox"
-                    checked={selectedTools.includes(tool.name)}
-                    onChange={() => handleCheckboxChange(tool.name)}
-                    disabled={!tool.available}
-                  />
-                  <span className={tool.available ? '' : 'unavailable'}>{tool.name}</span>
-                  <img src="https://via.placeholder.com/100" className="tool-image" alt="Tool Image" />
-                </div>
-              ))}
-          </div>
-        </div>
-      ))}
-      <div>
-        <label>Job Number: </label>
-        <input
-          type="text"
-          value={jobNumber}
-          onChange={e => setJobNumber(e.target.value)}
-        />
-      </div>
-      <button onClick={handleBook}>Book Tools</button>
-    </div>
-  );
-}
-
-function ToolStatus({ tools, categories, onReturn, onOpenDetails }) {
-  return (
-    <div>
-      <h2>Tool Status</h2>
-      {categories.map(category => (
-        <div key={category} className="category-section">
-          <h3>{category}</h3>
-          <div className="tool-grid">
-            {tools
-              .filter(tool => tool.category === category)
-              .map(tool => (
-                <div className="tool-item" key={tool.name}>
-                  <span className={tool.available ? '' : 'unavailable'}>
-                    {tool.name}: {tool.available ? "Available" : `Booked for Job #${tool.jobNumber}`}
+    <div className="app-container">
+      {/* Left Section: Tool Details */}
+      <div className="left-section">
+        {selectedTool ? (
+          <div>
+            <h2>{selectedTool.name} - {selectedTool.location}</h2>
+            <div className="tool-image">IMAGE OF TOOL</div>
+            <div className="comments-section">
+              <h3>Comments:</h3>
+              {selectedTool.comments.map((comment, index) => (
+                <div key={index} className="comment">
+                  <span
+                    className="checkmark"
+                    onClick={() => completeComment(selectedTool.name, index)}
+                  >
+                    ✔
                   </span>
-                  {!tool.available && <button onClick={() => onReturn(tool.name)}>Return</button>}
-                  <button onClick={() => onOpenDetails(tool)}>Details</button>
-                  <img src="https://via.placeholder.com/100" className="tool-image" alt="Tool Image" />
+                  {comment.text}
                 </div>
               ))}
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function ToolDetailsModal({ tool, onClose, onAddComment, onCompleteComment }) {
-  const [newComment, setNewComment] = useState("");
-
-  const handleAddComment = () => {
-    if (newComment.trim()) {
-      onAddComment(tool.name, newComment);
-      setNewComment("");
-    }
-  };
-
-  return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content" onClick={e => e.stopPropagation()}>
-        <h2>{tool.name}</h2>
-        <p>Status: {tool.available ? "Available" : `Booked for Job #${tool.jobNumber}`}</p>
-        <h3>Active Comments</h3>
-        {tool.comments
-          .filter(c => c.status === "active")
-          .map((c, i) => (
-            <div key={i}>
-              {c.text}
-              <button onClick={() => onCompleteComment(tool.name, tool.comments.indexOf(c))}>
-                Mark as Completed
-              </button>
+              <div>
+                <input
+                  type="text"
+                  value={newComment}
+                  onChange={e => setNewComment(e.target.value)}
+                  placeholder="New comment"
+                />
+                <button
+                  onClick={() => {
+                    if (newComment.trim()) addComment(selectedTool.name, newComment);
+                  }}
+                >
+                  Add
+                </button>
+              </div>
             </div>
-          ))}
-        <div>
+            <div className="history-section">
+              <h3>History:</h3>
+              {selectedTool.history.map((entry, index) => (
+                <div key={index}>
+                  {entry.date} - {entry.action}{entry.details ? ` - ${entry.details}` : ''}
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <p>Select a tool to view details</p>
+        )}
+      </div>
+
+      {/* Right Section: Tool List and Booking */}
+      <div className="right-section">
+        <h2>Tool List</h2>
+        {initialCategories.map(category => (
+          <div key={category}>
+            <h3 onClick={() => toggleCategory(category)}>
+              {expandedCategories[category] ? 'v' : '>'} {category}
+            </h3>
+            {expandedCategories[category] && (
+              <div className="tool-list">
+                {tools
+                  .filter(tool => tool.category === category)
+                  .map(tool => (
+                    <div
+                      key={tool.name}
+                      className={`tool-item ${tool.available ? 'available' : 'unavailable'}`}
+                      onClick={() => selectTool(tool)}
+                    >
+                      {tool.available ? (
+                        <input
+                          type="checkbox"
+                          checked={selectedTools.includes(tool.name)}
+                          onChange={() => handleCheckboxChange(tool.name)}
+                          onClick={e => e.stopPropagation()}
+                        />
+                      ) : (
+                        <span>on job #{tool.jobNumber}</span>
+                      )}
+                      <span>{tool.name}</span>
+                      {!tool.available && (
+                        <button
+                          className="return-btn"
+                          onClick={e => {
+                            e.stopPropagation();
+                            returnTool(tool.name);
+                          }}
+                        >
+                          Return
+                        </button>
+                      )}
+                    </div>
+                  ))}
+              </div>
+            )}
+          </div>
+        ))}
+        <div className="booking-section">
+          <label>Add selected tools to job:</label>
           <input
             type="text"
-            value={newComment}
-            onChange={e => setNewComment(e.target.value)}
+            value={jobNumber}
+            onChange={e => setJobNumber(e.target.value)}
+            placeholder="Job number"
           />
-          <button onClick={handleAddComment}>Add Comment</button>
+          <button onClick={bookTools}>Add</button>
         </div>
-        <h3>Comment History</h3>
-        {tool.comments
-          .filter(c => c.status === "completed")
-          .map((c, i) => <div key={i}>{c.text}</div>)}
-        <button onClick={onClose}>Close</button>
+        <div className="add-tool-section">
+          <h3>Add tool</h3>
+          <input
+            type="text"
+            value={newToolName}
+            onChange={e => setNewToolName(e.target.value)}
+            placeholder="Tool name"
+          />
+          <select
+            value={newToolCategory}
+            onChange={e => setNewToolCategory(e.target.value)}
+          >
+            {initialCategories.map(cat => (
+              <option key={cat} value={cat}>{cat}</option>
+            ))}
+          </select>
+          <button onClick={addNewTool}>Add</button>
+        </div>
       </div>
     </div>
   );

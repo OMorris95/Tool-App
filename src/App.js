@@ -14,13 +14,34 @@ const initialCategories = [
 // Initial tools with categories
 const initialTools = [
   // Drills
-  { name: "Drill 1", category: "Drills", available: true, jobNumber: null, location: "Shelf A1", comments: [], history: [] },
-  { name: "Drill 2", category: "Drills", available: true, jobNumber: null, location: "Shelf A2", comments: [], history: [] },
-  { name: "Drill 3", category: "Drills", available: true, jobNumber: null, location: "Shelf A3", comments: [], history: [] },
-  { name: "Drill 4", category: "Drills", available: true, jobNumber: null, location: "Shelf A4", comments: [], history: [] },
-  { name: "Drill 5", category: "Drills", available: true, jobNumber: null, location: "Shelf A5", comments: [], history: [] },
-  { name: "Makita Drill", category: "Drills", available: true, jobNumber: null, location: "Shelf A7", comments: [], history: [] },
-  // Add more initial tools as needed
+  { name: "Drill 1", category: "Drills", available: true, jobNumber: null, location: "Tool Cupboard", comments: [], history: [] },
+  { name: "Drill 2", category: "Drills", available: true, jobNumber: null, location: "Tool Cupboard", comments: [], history: [] },
+  { name: "Drill 3", category: "Drills", available: true, jobNumber: null, location: "Tool Cupboard", comments: [], history: [] },
+  { name: "Drill 4", category: "Drills", available: true, jobNumber: null, location: "Tool Cupboard", comments: [], history: [] },
+  { name: "Drill 5", category: "Drills", available: true, jobNumber: null, location: "Tool Cupboard", comments: [], history: [] },
+  { name: "Makita Drill", category: "Drills", available: true, jobNumber: null, location: "Tool Cupboard", comments: [], history: [] },
+  { name: "DeWalt Drill", category: "Drills", available: true, jobNumber: null, location: "Tool Cupboard", comments: [], history: [] },
+  { name: "Small Drill", category: "Drills", available: true, jobNumber: null, location: "Tool Cupboard", comments: [], history: [] },
+  { name: "Ballast Drill", category: "Drills", available: true, jobNumber: null, location: "Tool Cupboard", comments: [], history: [] },
+  // Fixings
+  { name: "Fixings 1", category: "Fixings", available: true, jobNumber: null, location: "Upstairs", comments: [], history: [] },
+  { name: "Fixings 2", category: "Fixings", available: true, jobNumber: null, location: "Upstairs", comments: [], history: [] },
+  { name: "Fixings 3", category: "Fixings", available: true, jobNumber: null, location: "Upstairs", comments: [], history: [] },
+  { name: "Fixings 4", category: "Fixings", available: true, jobNumber: null, location: "Upstairs", comments: [], history: [] },
+  { name: "Fixings 5", category: "Fixings", available: true, jobNumber: null, location: "Upstairs", comments: [], history: [] },
+  { name: "Fixings 5", category: "Fixings", available: true, jobNumber: null, location: "Upstairs", comments: [], history: [] },
+  { name: "Heavy Fixings", category: "Fixings", available: true, jobNumber: null, location: "Downstairs", comments: [], history: [] },
+  // Lights
+  { name: "Battery Tripod Site Light", category: "Lights", available: true, jobNumber: null, location: "Downstairs", comments: [], history: [] },
+  // 110V Gear
+  { name: "110V Transformer 1", category: "110V Gear", available: true, jobNumber: null, location: "Downstairs", comments: [], history: [] },
+  { name: "110V Transformer 2", category: "110V Gear", available: true, jobNumber: null, location: "Downstairs", comments: [], history: [] },
+  { name: "110V Transformer 3", category: "110V Gear", available: true, jobNumber: null, location: "Downstairs", comments: [], history: [] },
+  { name: "110V Jigsaw", category: "110V Gear", available: true, jobNumber: null, location: "Downstairs", comments: [], history: [] },
+  // Crimping
+  { name: "SWA Crimper", category: "Crimping", available: true, jobNumber: null, location: "Downstairs", comments: [], history: [] },
+  { name: "Large Crimper", category: "Crimping", available: true, jobNumber: null, location: "Downstairs", comments: [], history: [] },
+  { name: "Small Crimper", category: "Crimping", available: true, jobNumber: null, location: "Downstairs", comments: [], history: [] },
 ];
 
 // Function to get current date in DD/MM/YYYY format
@@ -46,7 +67,7 @@ function App() {
   const [selectedTool, setSelectedTool] = useState(null);
   const [newComment, setNewComment] = useState('');
 
-  // Persist tools to localStorage whenever they change
+  // Persist tools to localStorage whenever they change (needs changed to server side later)
   useEffect(() => {
     localStorage.setItem('tools', JSON.stringify(tools));
   }, [tools]);

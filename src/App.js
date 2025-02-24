@@ -30,7 +30,7 @@ const initialTools = [
   { name: "Fixings 3", category: "Fixings", available: true, jobNumber: null, location: "Upstairs", comments: [], history: [], image: "https://i.imgur.com/QyjNQz9.jpeg" },
   { name: "Fixings 4", category: "Fixings", available: true, jobNumber: null, location: "Upstairs", comments: [], history: [], image: "https://i.imgur.com/QyjNQz9.jpeg" },
   { name: "Fixings 5", category: "Fixings", available: true, jobNumber: null, location: "Upstairs", comments: [], history: [], image: "https://i.imgur.com/QyjNQz9.jpeg" },
-  { name: "Heavy Fixings", category: "Fixings", available: true, jobNumber: null, location: "Downstairs", comments: [], history: [], image: "https://i.imgur.com/QyjNQz9.jpeg" },
+  { name: "Heavy Fixings", category: "Fixings", available: true, jobNumber: null, location: "Downstairs", comments: [], history: [], image: "https://i.imgur.com/sObks4o.jpeg" },
   
   // Lights
   { name: "Battery Tripod Site Light", category: "Lights", available: true, jobNumber: null, location: "Downstairs", comments: [], history: [], image: "https://i.imgur.com/QyjNQz9.jpeg" },
@@ -42,9 +42,11 @@ const initialTools = [
   { name: "110V Jigsaw", category: "110V Gear", available: true, jobNumber: null, location: "Downstairs", comments: [], history: [], image: "https://i.imgur.com/QyjNQz9.jpeg" },
   
   // Crimping
-  { name: "SWA Crimper", category: "Crimping", available: true, jobNumber: null, location: "Downstairs", comments: [], history: [], image: "https://i.imgur.com/QyjNQz9.jpeg" },
-  { name: "Large Crimper", category: "Crimping", available: true, jobNumber: null, location: "Downstairs", comments: [], history: [], image: "https://i.imgur.com/QyjNQz9.jpeg" },
+  { name: "SWA Crimper", category: "Crimping", available: true, jobNumber: null, location: "Downstairs", comments: [], history: [], image: "https://i.imgur.com/m39XtnY.jpeg" },
+  { name: "Crimper", category: "Crimping", available: true, jobNumber: null, location: "Downstairs", comments: [], history: [], image: "https://i.imgur.com/QyjNQz9.jpeg" },
   { name: "Small Crimper", category: "Crimping", available: true, jobNumber: null, location: "Downstairs", comments: [], history: [], image: "https://i.imgur.com/QyjNQz9.jpeg" },
+  { name: "Crimp Connection Box 1", category: "Crimping", available: true, jobNumber: null, location: "Downstairs", comments: [], history: [], image: "https://i.imgur.com/wTfmIdp.jpeg" },
+  { name: "Crimp Connection Box 2", category: "Crimping", available: true, jobNumber: null, location: "Downstairs", comments: [], history: [], image: "https://i.imgur.com/5rUlobu.jpeg" },
 ];
 
 // Function to get current date in DD/MM/YYYY format
@@ -135,6 +137,7 @@ function App() {
   };
 
   const addComment = (toolName, commentText) => {
+    if (!commentText.trim()) return; // Prevent empty comments
     const updatedTools = tools.map(tool => {
       if (tool.name === toolName) {
         const historyEntry = {
@@ -152,6 +155,10 @@ function App() {
     });
     setTools(updatedTools);
     setNewComment(''); // Clear input and update UI immediately
+
+    // Update selectedTool to reflect the latest tool data
+    const updatedTool = updatedTools.find(tool => tool.name === toolName);
+    setSelectedTool(updatedTool);
   };
 
   const completeComment = (toolName, commentIndex) => {
@@ -173,6 +180,10 @@ function App() {
       return tool;
     });
     setTools(updatedTools);
+
+    // Update selectedTool to reflect the latest tool data
+    const updatedTool = updatedTools.find(tool => tool.name === toolName);
+    setSelectedTool(updatedTool);
   };
 
   const addNewTool = () => {
@@ -221,12 +232,10 @@ function App() {
               <h3>Comments:</h3>
               {selectedTool.comments.map((comment, index) => (
                 <div key={index} className="comment">
-                  <span
-                    className="checkmark"
-                    onClick={() => completeComment(selectedTool.name, index)}
+                  <span className="checkmark"
+                  onClick={() => completeComment(selectedTool.name, index)}
                   >
-                    ✔
-                  </span>
+                    ✔</span>
                   {comment.text}
                 </div>
               ))}
@@ -238,9 +247,7 @@ function App() {
                   placeholder="New comment"
                 />
                 <button
-                  onClick={() => {
-                    if (newComment.trim()) addComment(selectedTool.name, newComment);
-                  }}
+                  onClick={() => addComment(selectedTool.name, newComment)}
                 >
                   Add
                 </button>
@@ -248,13 +255,15 @@ function App() {
             </div>
             <div className="history-section">
               <h3>History:</h3>
-              {selectedTool.history.map((entry, index) => (
-                <div key={index}>
-                  {entry.date} - {entry.action}{entry.details ? ` - ${entry.details}` : ''}
+              <div className="scrollable-history">
+                {selectedTool.history.map((entry, index) => (
+                  <div key={index}>
+                    {entry.date} - {entry.action}{entry.details ? ` - ${entry.details}` : ''}
                 </div>
               ))}
             </div>
           </div>
+        </div>
         ) : (
           <p>Select a tool to view details</p>
         )}

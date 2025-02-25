@@ -7,7 +7,7 @@
 .left-section {
   flex: 2;
   padding: 20px;
-  border-right: 2px solid black; /* Vertical dividing line */
+  border-right: 2px solid black;
   overflow-y: auto;
 }
 
@@ -62,16 +62,25 @@
   background-color: #bbb;
 }
 
-.booking-section, .add-tool-section, .category-section {
-  margin: 20px 0;
+.booking-section {
+  margin: 10px 0;
   padding: 10px;
-  /* No border */
+}
+
+.category-section {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.add-tool-section {
+  margin: 10px;
+  padding-top: 60px;
 }
 
 .comments-section, .history-section {
   margin: 20px 0;
   padding: 10px;
-  border: 2px solid black; /* Borders only on left-side sections */
+  border: 2px solid black;
 }
 
 .booking-section label {
@@ -104,7 +113,10 @@
 
 h2, h3 {
   margin: 0 0 10px 0;
-  cursor: pointer;
+}
+
+h3 {
+  font-size: 12pt
 }
 
 input, select, button {
@@ -116,4 +128,11 @@ input, select, button {
   max-height: 100px;
   overflow-y: auto; 
   padding: 5px 0; 
+}
+
+.exclamation-point {
+  color: rgb(255, 0, 0);
+  font-size: 20px;
+  vertical-align: middle;
+  display: inline-block;
 }

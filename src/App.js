@@ -5,13 +5,15 @@ import './App.css';
 const initialCategories = [
   "Drills",
   "Fixings",
+  "Steps",
   "Lights",
   "110V Gear",
+  "Test Gear",
   "Crimping",
   "Misc"
 ];
 
-// Initial tools with categories, locations, and placeholder images as provided
+// Initial tools with categories, locations, and placeholder images
 const initialTools = [
   // Drills
   { name: "Drill 1", category: "Drills", available: true, jobNumber: null, location: "Tool Cupboard", comments: [], history: [], image: "https://i.imgur.com/QyjNQz9.jpeg" },
@@ -31,6 +33,17 @@ const initialTools = [
   { name: "Fixings 4", category: "Fixings", available: true, jobNumber: null, location: "Upstairs", comments: [], history: [], image: "https://i.imgur.com/QyjNQz9.jpeg" },
   { name: "Fixings 5", category: "Fixings", available: true, jobNumber: null, location: "Upstairs", comments: [], history: [], image: "https://i.imgur.com/QyjNQz9.jpeg" },
   { name: "Heavy Fixings", category: "Fixings", available: true, jobNumber: null, location: "Downstairs", comments: [], history: [], image: "https://i.imgur.com/sObks4o.jpeg" },
+
+  // Steps
+  { name: "Yellow Steps 1", category: "Steps", available: true, jobNumber: null, location: "Upstairs", comments: [], history: [], image: "https://i.imgur.com/QyjNQz9.jpeg" },
+  { name: "Yellow Steps 2", category: "Steps", available: true, jobNumber: null, location: "Upstairs", comments: [], history: [], image: "https://i.imgur.com/QyjNQz9.jpeg" },
+  { name: "Yellow Steps 3", category: "Steps", available: true, jobNumber: null, location: "Upstairs", comments: [], history: [], image: "https://i.imgur.com/QyjNQz9.jpeg" },
+  { name: "Tall Yellow Steps", category: "Steps", available: true, jobNumber: null, location: "Upstairs", comments: [], history: [], image: "https://i.imgur.com/QyjNQz9.jpeg" },
+  { name: "Slightly Smaller Yellow Steps", category: "Steps", available: true, jobNumber: null, location: "Upstairs", comments: [], history: [], image: "https://i.imgur.com/QyjNQz9.jpeg" },
+  { name: "Small Yellow Steps 1", category: "Steps", available: true, jobNumber: null, location: "Downstairs", comments: [], history: [], image: "https://i.imgur.com/sObks4o.jpeg" },
+  { name: "Small Yellow Steps 2", category: "Steps", available: true, jobNumber: null, location: "Downstairs", comments: [], history: [], image: "https://i.imgur.com/sObks4o.jpeg" },
+  { name: "3-Part Steps - Silver", category: "Steps", available: true, jobNumber: null, location: "Downstairs", comments: [], history: [], image: "https://i.imgur.com/sObks4o.jpeg" },
+  { name: "3-Part Steps - Red", category: "Steps", available: true, jobNumber: null, location: "Downstairs", comments: [], history: [], image: "https://i.imgur.com/sObks4o.jpeg" },
   
   // Lights
   { name: "Battery Tripod Site Light", category: "Lights", available: true, jobNumber: null, location: "Downstairs", comments: [], history: [], image: "https://i.imgur.com/QyjNQz9.jpeg" },
@@ -40,6 +53,13 @@ const initialTools = [
   { name: "110V Transformer 2", category: "110V Gear", available: true, jobNumber: null, location: "Downstairs", comments: [], history: [], image: "https://i.imgur.com/QyjNQz9.jpeg" },
   { name: "110V Transformer 3", category: "110V Gear", available: true, jobNumber: null, location: "Downstairs", comments: [], history: [], image: "https://i.imgur.com/QyjNQz9.jpeg" },
   { name: "110V Jigsaw", category: "110V Gear", available: true, jobNumber: null, location: "Downstairs", comments: [], history: [], image: "https://i.imgur.com/QyjNQz9.jpeg" },
+
+  // Test Gear
+  { name: "Test Box 1", category: "Test Gear", available: true, jobNumber: null, location: "Tool Cupboard", comments: [], history: [], image: "https://i.imgur.com/QyjNQz9.jpeg" },
+  { name: "Test Box 2", category: "Test Gear", available: true, jobNumber: null, location: "Tool Cupboard", comments: [], history: [], image: "https://i.imgur.com/QyjNQz9.jpeg" },
+  { name: "PAT Tester 1", category: "Test Gear", available: true, jobNumber: null, location: "Tool Cupboard", comments: [], history: [], image: "https://i.imgur.com/QyjNQz9.jpeg" },
+  { name: "PAT Tester 2", category: "Test Gear", available: true, jobNumber: null, location: "Tool Cupboard", comments: [], history: [], image: "https://i.imgur.com/QyjNQz9.jpeg" },
+  { name: "Blue MFT", category: "Test Gear", available: true, jobNumber: null, location: "Tool Cupboard", comments: [], history: [], image: "https://i.imgur.com/QyjNQz9.jpeg" },
   
   // Crimping
   { name: "SWA Crimper", category: "Crimping", available: true, jobNumber: null, location: "Downstairs", comments: [], history: [], image: "https://i.imgur.com/m39XtnY.jpeg" },
@@ -184,6 +204,9 @@ function App() {
     // Update selectedTool to reflect the latest tool data
     const updatedTool = updatedTools.find(tool => tool.name === toolName);
     setSelectedTool(updatedTool);
+
+    // Update the tool list in the right section immediately
+    // No additional state needed here since tools state update triggers re-render
   };
 
   const addNewTool = () => {
@@ -233,9 +256,10 @@ function App() {
               {selectedTool.comments.map((comment, index) => (
                 <div key={index} className="comment">
                   <span className="checkmark"
-                  onClick={() => completeComment(selectedTool.name, index)}
+                    onClick={() => completeComment(selectedTool.name, index)}
                   >
-                    ✔</span>
+                    ✔
+                  </span>
                   {comment.text}
                 </div>
               ))}
@@ -259,11 +283,11 @@ function App() {
                 {selectedTool.history.map((entry, index) => (
                   <div key={index}>
                     {entry.date} - {entry.action}{entry.details ? ` - ${entry.details}` : ''}
-                </div>
-              ))}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
         ) : (
           <p>Select a tool to view details</p>
         )}
@@ -295,9 +319,14 @@ function App() {
                           onClick={e => e.stopPropagation()}
                         />
                       ) : (
-                        <span>on job #{tool.jobNumber}</span>
+                        <span>On job #{tool.jobNumber}</span>
                       )}
-                      <span>{tool.name}</span>
+                      <span>
+                        {tool.name}
+                        {tool.comments.some(comment => comment.status === 'active') && (
+                          <span className="exclamation-point">!</span>
+                        )}
+                      </span>
                       {!tool.available && (
                         <button
                           className="return-btn"
@@ -316,17 +345,17 @@ function App() {
           </div>
         ))}
         <div className="booking-section">
-          <label>Add selected tools to job:</label>
+          <label><b>Book selected tools to job:</b></label>
           <input
             type="text"
             value={jobNumber}
             onChange={e => setJobNumber(e.target.value)}
             placeholder="Job number"
           />
-          <button onClick={bookTools}>Add</button>
+          <button onClick={bookTools}>Book</button>
         </div>
         <div className="add-tool-section">
-          <h3>Add tool</h3>
+          <h3>Add new tool to tool list:</h3>
           <input
             type="text"
             value={newToolName}

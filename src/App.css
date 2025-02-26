@@ -136,3 +136,128 @@ input, select, button {
   vertical-align: middle;
   display: inline-block;
 }
+
+/* Tab system styling */
+.tab-buttons {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.tab-button {
+  padding: 10px 20px;
+  font-size: 14px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  flex: 1;
+  transition: background-color 0.3s;
+}
+
+.tab-button:first-child {
+  border-radius: 5px 0 0 5px;
+}
+
+.tab-button:last-child {
+  border-radius: 0 5px 5px 0;
+}
+
+.active-tab {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+  font-weight: bold;
+}
+
+/* Allocated tools view styling */
+.allocated-tools-view {
+  margin-top: 10px;
+}
+
+.allocated-tool-link {
+  color: #007bff;
+  text-decoration: underline;
+  cursor: pointer;
+  margin-top: 8px;
+  font-size: 14px;
+  text-align: right;
+}
+
+.allocated-tool-link:hover {
+  color: #0056b3;
+}
+
+.job-tools-section {
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  background-color: #f9f9f9;
+}
+
+.job-tools-section h3 {
+  background-color: #007bff;
+  color: white;
+  padding: 8px;
+  margin: -10px -10px 10px -10px;
+  border-radius: 5px 5px 0 0;
+}
+
+.job-tools-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.allocated-tool-item {
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.allocated-tool-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.allocated-tool-name {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.return-btn-allocated {
+  background-color: #ff6b6b;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.return-btn-allocated:hover {
+  background-color: #ff5252;
+}
+
+.allocated-tool-details {
+  display: flex;
+  flex-direction: column;
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+.allocated-tool-details span {
+  margin-bottom: 3px;
+}
+
+.comments-badge {
+  display: inline-block;
+  background-color: #ffc107;
+  color: #212529;
+  padding: 2px 6px;
+  border-radius: 10px;
+  font-size: 12px;
+  margin-top: 5px;
+}

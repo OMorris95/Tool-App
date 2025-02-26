@@ -92,6 +92,7 @@ function App() {
   const [newToolImage, setNewToolImage] = useState(null);
   const [selectedTool, setSelectedTool] = useState(null);
   const [newComment, setNewComment] = useState('');
+  const [activeTab, setActiveTab] = useState('details'); // 'details' or 'allocated'
 
   useEffect(() => {
     localStorage.setItem('tools', JSON.stringify(tools));
@@ -115,25 +116,29 @@ function App() {
       alert('Select at least one tool and enter a job number.');
       return;
     }
-    const updatedTools = tools.map(tool => {
-      if (selectedTools.includes(tool.name)) {
-        const historyEntry = {
-          date: getCurrentDate(),
-          action: 'Booked Out',
-          details: `Job #${jobNumber}`
-        };
-        return {
-          ...tool,
-          available: false,
-          jobNumber,
-          history: [historyEntry, ...tool.history]
-        };
-      }
-      return tool;
-    });
-    setTools(updatedTools);
-    setSelectedTools([]);
-    setJobNumber('');
+    const message = `Are you sure you want to book the following tools to job #${jobNumber}?:\n${selectedTools.join('\n')}`;
+    if (window.confirm(message)) {
+      const updatedTools = tools.map(tool => {
+        if (selectedTools.includes(tool.name)) {
+          const historyEntry = {
+            date: getCurrentDate(),
+            action: 'Booked Out',
+            details: `Job #${jobNumber}`
+          };
+          return {
+            ...tool,
+            available: false,
+            jobNumber,
+            history: [historyEntry, ...tool.history]
+          };
+        }
+        return tool;
+      });
+      setTools(updatedTools);
+      setSelectedTools([]);
+      setJobNumber('');
+    }
+    // If "No" is selected, do nothing and leave tools available
   };
 
   const returnTool = (toolName) => {
@@ -239,57 +244,146 @@ function App() {
 
   const selectTool = (tool) => {
     setSelectedTool(tool);
+    setActiveTab('details'); // Switch to details tab when a tool is selected
   };
+
+  // Function to find the date when a tool was allocated to a job
+  const getToolAllocationDate = (tool) => {
+    if (!tool.history.length) return null;
+    
+    // Find the latest 'Booked Out' entry for the current job number
+    const bookingEntry = tool.history.find(entry => 
+      entry.action === 'Booked Out' && entry.details === `Job #${tool.jobNumber}`
+    );
+    
+    return bookingEntry ? bookingEntry.date : null;
+  };
+
+  // Get all allocated tools
+  const allocatedTools = tools.filter(tool => !tool.available && tool.jobNumber);
+
+  // Group allocated tools by job number
+  const groupedByJob = allocatedTools.reduce((acc, tool) => {
+    const jobNum = tool.jobNumber;
+    if (!acc[jobNum]) {
+      acc[jobNum] = [];
+    }
+    acc[jobNum].push({
+      ...tool,
+      allocationDate: getToolAllocationDate(tool)
+    });
+    return acc;
+  }, {});
 
   return (
     <div className="app-container">
-      {/* Left Section: Tool Details */}
+      {/* Left Section: Tool Details or Allocated Tools */}
       <div className="left-section">
-        {selectedTool ? (
-          <div>
-            <h2>{selectedTool.name} - {selectedTool.location}</h2>
-            <div className="tool-image-container">
-              <img src={selectedTool.image} alt={`${selectedTool.name} Image`} className="tool-image" />
-            </div>
-            <div className="comments-section">
-              <h3>Comments:</h3>
-              {selectedTool.comments.map((comment, index) => (
-                <div key={index} className="comment">
-                  <span className="checkmark"
-                    onClick={() => completeComment(selectedTool.name, index)}
-                  >
-                    ✔
-                  </span>
-                  {comment.text}
-                </div>
-              ))}
-              <div>
-                <input
-                  type="text"
-                  value={newComment}
-                  onChange={e => setNewComment(e.target.value)}
-                  placeholder="New comment"
-                />
-                <button
-                  onClick={() => addComment(selectedTool.name, newComment)}
-                >
-                  Add
-                </button>
+        <div className="tab-buttons">
+          <button 
+            className={`tab-button ${activeTab === 'details' ? 'active-tab' : ''}`} 
+            onClick={() => setActiveTab('details')}
+          >
+            Tool Details
+          </button>
+          <button 
+            className={`tab-button ${activeTab === 'allocated' ? 'active-tab' : ''}`} 
+            onClick={() => setActiveTab('allocated')}
+          >
+            Allocated Tools
+          </button>
+        </div>
+
+        {activeTab === 'details' ? (
+          // TOOL DETAILS TAB
+          selectedTool ? (
+            <div>
+              <h2>{selectedTool.name} - {selectedTool.location}</h2>
+              <div className="tool-image-container">
+                <img src={selectedTool.image} alt={`${selectedTool.name} Image`} className="tool-image" />
               </div>
-            </div>
-            <div className="history-section">
-              <h3>History:</h3>
-              <div className="scrollable-history">
-                {selectedTool.history.map((entry, index) => (
-                  <div key={index}>
-                    {entry.date} - {entry.action}{entry.details ? ` - ${entry.details}` : ''}
+              <div className="comments-section">
+                <h3>Comments:</h3>
+                {selectedTool.comments.map((comment, index) => (
+                  <div key={index} className="comment">
+                    <span className="checkmark"
+                      onClick={() => completeComment(selectedTool.name, index)}
+                    >
+                      ✔
+                    </span>
+                    {comment.text}
                   </div>
                 ))}
+                <div>
+                  <input
+                    type="text"
+                    value={newComment}
+                    onChange={e => setNewComment(e.target.value)}
+                    placeholder="New comment"
+                  />
+                  <button
+                    onClick={() => addComment(selectedTool.name, newComment)}
+                  >
+                    Add
+                  </button>
+                </div>
+              </div>
+              <div className="history-section">
+                <h3>History:</h3>
+                <div className="scrollable-history">
+                  {selectedTool.history.map((entry, index) => (
+                    <div key={index}>
+                      {entry.date} - {entry.action}{entry.details ? ` - ${entry.details}` : ''}
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
+          ) : (
+            <p>Select a tool to view details</p>
+          )
         ) : (
-          <p>Select a tool to view details</p>
+          // ALLOCATED TOOLS TAB
+          <div className="allocated-tools-view">
+            <h2>Currently Allocated Tools</h2>
+            {Object.keys(groupedByJob).length > 0 ? (
+              Object.entries(groupedByJob).map(([jobNumber, jobTools]) => (
+                <div key={jobNumber} className="job-tools-section">
+                  <h3>Job #{jobNumber}</h3>
+                  <div className="job-tools-list">
+                    {jobTools.map(tool => (
+                      <div key={tool.name} className="allocated-tool-item">
+                        <div className="allocated-tool-header">
+                          <span className="allocated-tool-name">{tool.name}</span>
+                          <button 
+                            className="return-btn-allocated" 
+                            onClick={() => returnTool(tool.name)}
+                          >
+                            Return
+                          </button>
+                        </div>
+                        <div className="allocated-tool-details">
+                          <span>Category: {tool.category}</span>
+                          <span>Location: {tool.location}</span>
+                          <span>Booked Out: {tool.allocationDate || 'Unknown'}</span>
+                          {tool.comments.length > 0 && (
+                            <span className="comments-badge">
+                              {tool.comments.length} Comment{tool.comments.length > 1 ? 's' : ''}
+                            </span>
+                          )}
+                        </div>
+                        <div className="allocated-tool-link" onClick={() => selectTool(tool)}>
+                          View Details
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))
+            ) : (
+              <p>No tools are currently allocated to jobs</p>
+            )}
+          </div>
         )}
       </div>
 

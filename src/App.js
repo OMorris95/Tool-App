@@ -60,6 +60,7 @@ const initialTools = [
   { name: "PAT Tester 1", category: "Test Gear", available: true, jobNumber: null, location: "Tool Cupboard", comments: [], history: [], image: "https://i.imgur.com/QyjNQz9.jpeg" },
   { name: "PAT Tester 2", category: "Test Gear", available: true, jobNumber: null, location: "Tool Cupboard", comments: [], history: [], image: "https://i.imgur.com/QyjNQz9.jpeg" },
   { name: "Blue MFT", category: "Test Gear", available: true, jobNumber: null, location: "Tool Cupboard", comments: [], history: [], image: "https://i.imgur.com/QyjNQz9.jpeg" },
+  { name: "Laptop", category: "Test Gear", available: true, jobNumber: null, location: "Tool Cupboard", comments: [], history: [], image: "https://i.imgur.com/QyjNQz9.jpeg" },
   
   // Crimping
   { name: "SWA Crimper", category: "Crimping", available: true, jobNumber: null, location: "Downstairs", comments: [], history: [], image: "https://i.imgur.com/m39XtnY.jpeg" },
